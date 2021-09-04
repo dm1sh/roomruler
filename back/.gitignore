@@ -1,0 +1,3 @@
+certs/
+src/db/config.ts
+.env
