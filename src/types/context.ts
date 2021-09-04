@@ -8,5 +8,5 @@ export interface ContextData {
 
 export type ContextValue = {
   state: ContextData;
-  setState: Dispatch<SetStateAction<ContextData>>;
+  toggleFree: (index: number) => void;
 };
