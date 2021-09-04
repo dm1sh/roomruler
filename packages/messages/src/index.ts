@@ -11,6 +11,21 @@ export type UpdateMessage = Message & {
   };
 };
 
+export type Room = {
+  id: number;
+  title: string;
+  free: boolean;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+export type ListMessage = Message & {
+  type: "list";
+  args: Room[];
+};
+
 const isObjLike = (obj: unknown): obj is object =>
   Boolean(obj) && typeof obj === "object";
 
@@ -31,3 +46,40 @@ export const isUpdateMessage = (message: Message): message is UpdateMessage =>
   typeof message.args.id === "number" &&
   hasProperty(message.args, "value") &&
   typeof message.args.value === "boolean";
+
+export const isRoom = (obj: unknown): obj is Room => {
+  if (!(typeof obj === "object") || !obj) return false;
+
+  const ns = ["id", "x", "y", "width", "height"] as const;
+  for (const key of ns) {
+    if (!hasProperty(obj, key) || typeof obj[key] !== "number") return false;
+  }
+
+  if (
+    !hasProperty(obj, "title") ||
+    typeof obj.title !== "string" ||
+    !hasProperty(obj, "free") ||
+    typeof obj.free !== "boolean"
+  )
+    return false;
+
+  return true;
+};
+
+export const isArrayOf = <T extends unknown>(
+  obj: T,
+  itemCheck: (arg: T) => boolean
+) => {
+  if (Array.isArray(obj)) {
+    for (const el of obj) if (!itemCheck(el)) return false;
+    return true;
+  } else return false;
+};
+
+export const composeMessage = <T extends Message>(
+  type: T["type"],
+  args: T["args"]
+): Message => ({
+  type,
+  args,
+});

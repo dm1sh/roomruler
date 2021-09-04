@@ -1,7 +1,12 @@
 import "reflect-metadata";
 import { Server, OPEN } from "ws";
 import { connect, getRoomList, updateFree } from "./db";
-import { isMessage, isUpdateMessage } from "@roomruler/messages";
+import {
+  composeMessage,
+  isMessage,
+  isUpdateMessage,
+  ListMessage,
+} from "@roomruler/messages";
 
 const main = async () => {
   const connection = await connect();
@@ -15,7 +20,11 @@ const main = async () => {
 
   wss.on("connection", async (wsc, req) => {
     console.log("New user connected from " + req.socket.remoteAddress);
-    wsc.send(JSON.stringify(await getRoomList(connection)));
+    wsc.send(
+      JSON.stringify(
+        composeMessage<ListMessage>("list", await getRoomList(connection))
+      )
+    );
 
     wsc.on("message", async (data) => {
       console.log("Got message from " + req.socket.remoteAddress);
