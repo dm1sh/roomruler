@@ -27,7 +27,11 @@ export const defaultState: ContextData = {
     { x: 110, y: 5 },
     { x: 5, y: 110 },
     { x: 110, y: 110 },
-  ].map((coordinates) => ({ coordinates, size: { w: 100, h: 100 } })),
+  ].map((coordinates, index) => ({
+    coordinates,
+    size: { w: 100, h: 100 },
+    title: index + 1,
+  })),
   char: Array(4)
     .fill(0)
     .map(() => ({
