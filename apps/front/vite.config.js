@@ -4,4 +4,6 @@ export default defineConfig({
   esbuild: {
     jsxInject: `import React from "react"`,
   },
+  optimizeDeps: { include: ["@roomruler/messages"] },
+  
 });

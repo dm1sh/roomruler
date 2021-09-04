@@ -41,7 +41,7 @@ export const useCanvas = (
 
       clickCb(x, y);
     },
-    [canvasRef.current]
+    [canvasRef.current, clickCb]
   );
 
   return { canvasRef, onClick };

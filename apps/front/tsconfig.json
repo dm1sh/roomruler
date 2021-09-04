@@ -4,5 +4,7 @@
     "target": "es6",
     "module": "ESNext",
     "jsx": "react-jsx"
-  }
+  },
+  "include": ["src"],
+  "references": [{ "path": "../../packages/messages/tsconfig.json" }]
 }
