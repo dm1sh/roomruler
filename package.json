@@ -4,6 +4,7 @@
   "description": "Web application for distribution of free classrooms",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "vite build"
   },
   "author": "dm1sh",
