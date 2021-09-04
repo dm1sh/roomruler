@@ -1,12 +1,11 @@
 import { createContext, FC, useContext, useState } from "react";
-import { ContextData, ContextValue } from "./types";
-
-const defaultState: ContextData = { x: 0 };
+import { defaultState } from "./constants";
+import { ContextData, ContextValue } from "./types/context";
 
 const Context = createContext<ContextValue | undefined>(undefined);
 
 export const RoomContextProvider: FC = ({ children }) => {
-  const [state, setState] = useState(defaultState);
+  const [state, setState] = useState<ContextData>(defaultState);
 
   return (
     <Context.Provider value={{ state, setState }}>{children}</Context.Provider>

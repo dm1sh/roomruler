@@ -1,3 +1,4 @@
+import { ContextData } from "./types/context";
 import { PeriodFormat } from "./types/time";
 
 export const lessonPeriods: readonly PeriodFormat[] = [
@@ -18,3 +19,18 @@ export const WeekDays = [
   "Saturday",
   "Sunday",
 ] as const;
+
+// It will look like Windows 11 logo, lol
+export const defaultState: ContextData = {
+  map: [
+    { x: 5, y: 5 },
+    { x: 110, y: 5 },
+    { x: 5, y: 110 },
+    { x: 110, y: 110 },
+  ].map((coordinates) => ({ coordinates, size: { w: 100, h: 100 } })),
+  char: Array(4)
+    .fill(0)
+    .map(() => ({
+      free: true,
+    })),
+};
