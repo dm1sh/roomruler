@@ -50,7 +50,14 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
 
   return (
     <>
-      <Canvas height={height} width={width} draw={draw} />
+      <Canvas
+        clickCb={(x, y) => {
+          console.log(`x: ${x}, y: ${y}`);
+        }}
+        height={height}
+        width={width}
+        draw={draw}
+      />
     </>
   );
 };

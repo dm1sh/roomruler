@@ -1,10 +1,15 @@
-import { HTMLProps, useEffect, useRef } from "react";
+import { HTMLProps, useEffect, useRef, MouseEvent, useCallback } from "react";
 
 export type DrawFT = (ctx: CanvasRenderingContext2D) => void;
 
-export type CanvasProps = HTMLProps<HTMLCanvasElement> & { draw: DrawFT };
+export type ClickCb = (x: number, y: number) => void;
 
-export const useCanvas = (draw: DrawFT) => {
+export type CanvasProps = HTMLProps<HTMLCanvasElement> & {
+  draw: DrawFT;
+  clickCb: ClickCb;
+};
+
+export const useCanvas = (draw: DrawFT, clickCb: ClickCb) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -18,11 +23,25 @@ export const useCanvas = (draw: DrawFT) => {
     draw(context);
   }, [draw]);
 
-  return canvasRef;
+  const onClick = useCallback(
+    (event: MouseEvent<HTMLCanvasElement>) => {
+      const canvas = canvasRef.current;
+      if (!canvas) throw new Error("Canvas ref not set");
+      const rect = canvas.getBoundingClientRect();
+
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      clickCb(x, y);
+    },
+    [canvasRef.current]
+  );
+
+  return { canvasRef, onClick };
 };
 
-export const Canvas = ({ draw, ...props }: CanvasProps) => {
-  const canvasRef = useCanvas(draw);
+export const Canvas = ({ draw, clickCb, ...props }: CanvasProps) => {
+  const { canvasRef, onClick } = useCanvas(draw, clickCb);
 
-  return <canvas ref={canvasRef} {...props} />;
+  return <canvas onClick={onClick} ref={canvasRef} {...props} />;
 };
