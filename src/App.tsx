@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(10, 2, 2, 2),
     height: "100vh",
+    "& > div > *": {
+      height: "100%",
+    },
   },
 }));
 
@@ -44,8 +47,8 @@ export const App = () => {
   useEffect(() => {
     if (planContainer.current)
       setCanvasSize({
-        w: planContainer.current.clientWidth,
-        h: planContainer.current.clientHeight,
+        w: planContainer.current.clientWidth - theme.spacing(2),
+        h: planContainer.current.clientHeight - theme.spacing(1),
       });
   }, [planContainer.current]);
 
@@ -60,10 +63,7 @@ export const App = () => {
         </AppBar>
         <Grid className={classes.root} container>
           <Grid ref={planContainer} item xs={9}>
-            <BuildingPlan
-              width={planContainer.current?.clientWidth}
-              height={planContainer.current?.clientHeight}
-            />
+            <BuildingPlan width={canvasSize.w} height={canvasSize.h} />
           </Grid>
           <Grid item xs={3}>
             <RoomList />
