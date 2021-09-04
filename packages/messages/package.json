@@ -1,0 +1,13 @@
+{
+  "name": "@roomruler/messages",
+  "main": "dist/src/index.js",
+  "version": "0.0.0",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.2"
+  },
+  "private": "true"
+}

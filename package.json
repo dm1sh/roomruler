@@ -1,0 +1,19 @@
+{
+  "name": "roomruler",
+  "version": "1.0.0",
+  "description": "Web application for distribution of free classrooms",
+  "scripts": {
+    "preinstall": "npx -y only-allow pnpm",
+    "clean": "rm -rf node_modules apps/back/node_modules apps/front/node_modules packages/messages/node_modules apps/back/dist apps/front/dist packages/messages/dist pnpm-lock.yaml"
+  },
+  "author": "dm1sh",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16.1.0",
+    "pnpm": ">= 6.9.0"
+  },
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ]
+}

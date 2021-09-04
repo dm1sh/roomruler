@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Server, OPEN } from "ws";
 import { connect, getRoomList, updateFree } from "./db";
-import { isMessage, isUpdateMessage } from "./types";
+import { isMessage, isUpdateMessage } from "@roomruler/messages";
 
 const main = async () => {
   const connection = await connect();

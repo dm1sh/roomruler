@@ -1,19 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ThemeProvider,
-  createTheme,
-  useMediaQuery,
-  CssBaseline,
-  AppBar,
-  Toolbar,
-  Typography,
-  makeStyles,
-  Grid,
-} from "@material-ui/core";
+import { useEffect, useRef, useState } from "react";
+import { makeStyles, Grid, useTheme } from "@material-ui/core";
 
 import { RoomContextProvider, useRoomContext } from "./context";
 import { BuildingPlan } from "./components/BuildingPlan";
 import { RoomList } from "./components/RoomList";
+import { AppTheme } from "./theme";
+import { Header } from "./components/Header";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,24 +18,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const App = () => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          type: prefersDarkMode ? "dark" : "light",
-        },
-      }),
-    [prefersDarkMode]
-  );
-
-  const planContainer = useRef<HTMLDivElement>(null);
-
+  const theme = useTheme();
   const classes = useStyles();
 
   const [canvasSize, setCanvasSize] = useState({ w: 0, h: 0 });
 
+  const planContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (planContainer.current)
       setCanvasSize({
@@ -53,14 +33,9 @@ export const App = () => {
   }, [planContainer.current]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <AppTheme>
       <RoomContextProvider>
-        <CssBaseline />
-        <AppBar>
-          <Toolbar>
-            <Typography variant="h6">roomruler</Typography>
-          </Toolbar>
-        </AppBar>
+        <Header />
         <Grid className={classes.root} container>
           <Grid ref={planContainer} item xs={9}>
             <BuildingPlan width={canvasSize.w} height={canvasSize.h} />
@@ -70,6 +45,6 @@ export const App = () => {
           </Grid>
         </Grid>
       </RoomContextProvider>
-    </ThemeProvider>
+    </AppTheme>
   );
 };
