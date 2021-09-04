@@ -1,27 +1,27 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Room {
+export abstract class Room {
   @PrimaryGeneratedColumn()
-  id: number;
+  abstract id: number;
 
   @Column({
     length: 100,
   })
-  title: string;
+  abstract title: string;
 
   @Column()
-  free: boolean;
+  abstract free: boolean;
 
   @Column()
-  x: number;
+  abstract x: number;
 
   @Column()
-  y: number;
+  abstract y: number;
 
   @Column()
-  width: number;
+  abstract width: number;
 
   @Column()
-  height: number;
+  abstract height: number;
 }

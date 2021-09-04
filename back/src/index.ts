@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import { Server } from "ws";
+import { Server, OPEN } from "ws";
 import { connect, getRoomList, updateFree } from "./db";
-import { isIdMessage, isMessage } from "./types";
+import { isMessage, isUpdateMessage } from "./types";
 
-(async () => {
+const main = async () => {
   const connection = await connect();
 
   const wss = new Server({
@@ -13,12 +13,25 @@ import { isIdMessage, isMessage } from "./types";
   wss.on("connection", async (ws) => {
     ws.send(JSON.stringify(await getRoomList(connection)));
 
-    ws.on("message", (data) => {
-      const message: unknown = JSON.parse(data.toString());
-      if (!isMessage(message)) throw new Error("Message corrupted");
+    ws.on("message", async (data) => {
+      try {
+        const message: unknown = JSON.parse(data.toString());
+        if (!isMessage(message)) throw new Error("Message corrupted");
 
-      if (isIdMessage(message))
-        updateFree(connection, message.args.id, message.type === "freed");
+        if (isUpdateMessage(message)) {
+          const { id, value } = message.args;
+          await updateFree(connection, id, value);
+
+          wss.clients.forEach((client) => {
+            if (client.readyState === OPEN)
+              client.send(JSON.stringify(message));
+          });
+        }
+      } catch (err) {
+        console.log("Error processing message", err);
+      }
     });
   });
-})();
+};
+
+main();

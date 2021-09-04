@@ -1,18 +1,18 @@
-import { idMsgTypes } from "./constants";
-
-export type IdMsgTypes = typeof idMsgTypes[number];
-
 export type Message = {
   type: string;
   args: unknown;
 };
 
-export type IdMessage = Message & {
-  type: IdMsgTypes;
+export type UpdateMessage = Message & {
+  type: "update";
   args: {
     id: number;
+    value: boolean;
   };
 };
+
+const isObjLike = (obj: unknown): obj is object =>
+  Boolean(obj) && typeof obj === "object";
 
 const hasProperty = <T extends {}, U extends PropertyKey>(
   obj: T,
@@ -20,13 +20,14 @@ const hasProperty = <T extends {}, U extends PropertyKey>(
 ): obj is T & Record<U, unknown> => prop in obj;
 
 export const isMessage = (obj: unknown): obj is Message =>
-  typeof obj === "object" &&
+  isObjLike(obj) &&
   hasProperty(obj, "type") &&
   typeof obj.type === "string" &&
   hasProperty(obj, "args");
 
-export const isIdMessage = (message: Message): message is IdMessage =>
-  idMsgTypes.reduce((prev, curr) => prev || curr === message.type, false) &&
-  typeof message.args === "object" &&
+export const isUpdateMessage = (message: Message): message is UpdateMessage =>
+  isObjLike(message.args) &&
   hasProperty(message.args, "id") &&
-  typeof message.args.id === "number";
+  typeof message.args.id === "number" &&
+  hasProperty(message.args, "value") &&
+  typeof message.args.value === "boolean";
