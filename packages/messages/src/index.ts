@@ -67,14 +67,17 @@ export const isRoom = (obj: unknown): obj is Room => {
 };
 
 export const isArrayOf = <T extends unknown>(
-  obj: T,
-  itemCheck: (arg: T) => boolean
-) => {
+  obj: unknown,
+  itemCheck: (arg: unknown) => arg is T
+): obj is Room[] => {
   if (Array.isArray(obj)) {
     for (const el of obj) if (!itemCheck(el)) return false;
     return true;
   } else return false;
 };
+
+export const isListMessage = (message: Message): message is ListMessage =>
+  isArrayOf(message.args, isRoom);
 
 export const composeMessage = <T extends Message>(
   type: T["type"],
