@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { makeStyles, Grid, useTheme } from "@material-ui/core";
 
-import { RoomContextProvider, useRoomContext } from "./context";
+import { RoomContextProvider } from "./context";
 import { BuildingPlan } from "./components/BuildingPlan";
 import { RoomList } from "./components/RoomList";
 import { AppTheme } from "./theme";
@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(10, 2, 2, 2),
     height: "100vh",
+    overflow: "hidden",
+    "& > div": {
+      height: "100%",
+    },
     "& > div > *": {
       height: "100%",
     },

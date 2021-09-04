@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: `calc(100% - ${theme.spacing(1)}px)`,
     padding: theme.spacing(2),
+    overflow: "auto",
+    "-ms-overflow-style": "none",
+    scrollbarWidth: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
   },
   filterBox: {
     display: "flex",

@@ -58,7 +58,7 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
 
   const clickCb = (x: number, y: number) => {
     const index = getRoomByCoord(x, y, state.map);
-    if (index >= 0) toggleFree(index);
+    if (index >= 0) toggleFree(index + 1);
   };
 
   return (

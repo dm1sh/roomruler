@@ -49,7 +49,11 @@ export const RoomContextProvider: FC = ({ children }) => {
             free,
             id,
           } of message.args) {
-            map.push({ coordinates: { x, y }, size: { w, h }, title: title });
+            map.push({
+              coordinates: { x, y },
+              size: { w, h },
+              title: title,
+            });
             char.push({ free });
             ids[id] = map.length - 1;
           }
