@@ -7,9 +7,16 @@ export type ClickCb = (x: number, y: number) => void;
 export type CanvasProps = HTMLProps<HTMLCanvasElement> & {
   draw: DrawFT;
   clickCb: ClickCb;
+  width?: number;
+  height?: number;
 };
 
-export const useCanvas = (draw: DrawFT, clickCb: ClickCb) => {
+export const useCanvas = (
+  draw: DrawFT,
+  clickCb: ClickCb,
+  width?: number,
+  height?: number
+) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -21,7 +28,7 @@ export const useCanvas = (draw: DrawFT, clickCb: ClickCb) => {
     if (!context) throw new Error("Couldn't get canvas context");
 
     draw(context);
-  }, [draw]);
+  }, [draw, width, height]);
 
   const onClick = useCallback(
     (event: MouseEvent<HTMLCanvasElement>) => {
@@ -40,8 +47,22 @@ export const useCanvas = (draw: DrawFT, clickCb: ClickCb) => {
   return { canvasRef, onClick };
 };
 
-export const Canvas = ({ draw, clickCb, ...props }: CanvasProps) => {
-  const { canvasRef, onClick } = useCanvas(draw, clickCb);
+export const Canvas = ({
+  draw,
+  clickCb,
+  width,
+  height,
+  ...props
+}: CanvasProps) => {
+  const { canvasRef, onClick } = useCanvas(draw, clickCb, width, height);
 
-  return <canvas onClick={onClick} ref={canvasRef} {...props} />;
+  return (
+    <canvas
+      onClick={onClick}
+      width={width}
+      height={height}
+      ref={canvasRef}
+      {...props}
+    />
+  );
 };
