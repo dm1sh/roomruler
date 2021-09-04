@@ -1,11 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRoomContext } from "../context";
+import { RoomDisplay } from "../types/room";
 import { Canvas } from "./Canvas";
 
 export type BuildingPlanProps = { width: number; height: number };
 
+const getRoomByCoord = (x: number, y: number, map: RoomDisplay[]) => {
+  for (let i = 0; i < map.length; i++) {
+    const { coordinates, size } = map[i];
+    if (
+      x >= coordinates.x &&
+      x <= coordinates.x + size.w &&
+      y >= coordinates.y &&
+      y <= coordinates.y + size.h
+    )
+      return i;
+  }
+
+  return -1;
+};
+
 export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
-  const { state, setState } = useRoomContext();
+  const { state, toggleFree } = useRoomContext();
 
   const draw = useCallback(
     (ctx: CanvasRenderingContext2D) => {
@@ -32,32 +48,14 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
     [state.char, state.map]
   );
 
-  useEffect(() => {
-    setTimeout(
-      () =>
-        setState((p) => ({
-          ...p,
-          char: [
-            { free: false },
-            { free: false },
-            { free: false },
-            { free: false },
-          ],
-        })),
-      1000
-    );
-  }, []);
+  const clickCb = (x: number, y: number) => {
+    const index = getRoomByCoord(x, y, state.map);
+    if (index >= 0) toggleFree(index);
+  };
 
   return (
     <>
-      <Canvas
-        clickCb={(x, y) => {
-          console.log(`x: ${x}, y: ${y}`);
-        }}
-        height={height}
-        width={width}
-        draw={draw}
-      />
+      <Canvas clickCb={clickCb} height={height} width={width} draw={draw} />
     </>
   );
 };
