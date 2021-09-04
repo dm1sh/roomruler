@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Server } from "ws";
-import { connect, getRoomList } from "./db";
+import { connect, getRoomList, updateFree } from "./db";
 import { isIdMessage, isMessage } from "./types";
 
 (async () => {
@@ -18,7 +18,7 @@ import { isIdMessage, isMessage } from "./types";
       if (!isMessage(message)) throw new Error("Message corrupted");
 
       if (isIdMessage(message))
-        updateFree(message.args.id, message.type === "freed");
+        updateFree(connection, message.args.id, message.type === "freed");
     });
   });
 })();

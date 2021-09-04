@@ -4,6 +4,8 @@ import fs from "fs";
 import { Room } from "./model";
 import { config } from "./config";
 
+export { Room };
+
 export const connect = () =>
   createConnection({
     ...config,
@@ -17,8 +19,11 @@ export const connect = () =>
     entities: [Room],
   });
 
-export const getRoomList = (connection: Connection) => {
-  return connection.manager.find(Room);
-};
+export const getRoomList = (connection: Connection) =>
+  connection.manager.find(Room);
 
-export { Room };
+export const updateFree = (
+  connection: Connection,
+  id: number,
+  value: boolean
+) => connection.manager.update(Room, id, { free: value });
