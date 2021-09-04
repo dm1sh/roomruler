@@ -6,19 +6,28 @@ import { isMessage, isUpdateMessage } from "./types";
 const main = async () => {
   const connection = await connect();
 
-  const wss = new Server({
-    port: Number.parseInt(process.env.PORT || "") || 8081,
-  });
+  const wss = new Server(
+    {
+      port: Number.parseInt(process.env.PORT || "") || 8081,
+    },
+    () => console.log(`Started server on ${process.env.PORT || 8081}`)
+  );
 
-  wss.on("connection", async (ws) => {
-    ws.send(JSON.stringify(await getRoomList(connection)));
+  wss.on("connection", async (wsc, req) => {
+    console.log("New user connected from " + req.socket.remoteAddress);
+    wsc.send(JSON.stringify(await getRoomList(connection)));
 
-    ws.on("message", async (data) => {
+    wsc.on("message", async (data) => {
+      console.log("Got message from " + req.socket.remoteAddress);
       try {
         const message: unknown = JSON.parse(data.toString());
         if (!isMessage(message)) throw new Error("Message corrupted");
 
         if (isUpdateMessage(message)) {
+          console.log(
+            `Processing message of \"${message.type}\" type from ${req.socket.remoteAddress}`
+          );
+
           const { id, value } = message.args;
           await updateFree(connection, id, value);
 
