@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 
 import { RoomContextProvider } from "./context";
+import { BuildingPlan } from "./components/BuildingPlan";
 
 export const App = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -25,7 +26,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <RoomContextProvider>
         <CssBaseline />
-        Here goes content soon!
+        <BuildingPlan height={window.innerHeight} width={window.innerWidth} />
       </RoomContextProvider>
     </ThemeProvider>
   );
