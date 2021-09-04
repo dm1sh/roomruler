@@ -17,4 +17,8 @@ export const connect = () =>
     entities: [Room],
   });
 
+export const getRoomList = (connection: Connection) => {
+  return connection.manager.find(Room);
+};
+
 export { Room };
