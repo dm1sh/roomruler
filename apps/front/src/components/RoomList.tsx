@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   free: {
     background: theme.palette.success.main,
   },
-  busy: {
+  occupied: {
     background: theme.palette.grey[500],
   },
 }));
@@ -79,13 +79,13 @@ export const RoomList = () => {
         >
           <option value={FilterState.ALL}>All</option>
           <option value={FilterState.FREE}>Free</option>
-          <option value={FilterState.BUSY}>Busy</option>
+          <option value={FilterState.OCCUPIED}>Occupied</option>
         </Select>
       </Box>
       <List>
         {state.map.map(({ title }, index) => {
           if (filter === FilterState.FREE && !state.char[index].free) return "";
-          else if (filter === FilterState.BUSY && state.char[index].free)
+          else if (filter === FilterState.OCCUPIED && state.char[index].free)
             return "";
           else
             return (
@@ -93,7 +93,7 @@ export const RoomList = () => {
                 <ListItemIcon className={classes.indicatorContainer}>
                   <div
                     className={`${classes.indicator} ${
-                      state.char[index].free ? classes.free : classes.busy
+                      state.char[index].free ? classes.free : classes.occupied
                     }`}
                   />
                 </ListItemIcon>
