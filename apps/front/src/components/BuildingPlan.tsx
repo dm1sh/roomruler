@@ -5,6 +5,8 @@ import { useRoomContext } from "../context";
 import { RoomDisplay } from "../types/room";
 import { Canvas } from "./Canvas";
 
+import {ReactComponent as Logotype} from './logo.svg'
+
 export type BuildingPlanProps = { width: number; height: number };
 
 const getRoomByCoord = (x: number, y: number, map: RoomDisplay[]) => {
@@ -60,6 +62,8 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
     const index = getRoomByCoord(x, y, state.map);
     if (index >= 0) toggleFree(index + 1);
   };
+
+  if (state.map.length === 0) return <Logotype height="50vh" />
 
   return (
     <>
