@@ -1,11 +1,10 @@
-const typescript = require("@rollup/plugin-typescript");
-const { nodeResolve } = require("@rollup/plugin-node-resolve");
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 export default {
-  input: "src/index.ts",
+  input: "tsc-out/index.js",
   output: {
     dir: "dist",
     format: "cjs",
   },
-  plugins: [typescript(), nodeResolve({ resolveOnly: [/^@roomruler\/.*$/] })],
+  plugins: [nodeResolve({ resolveOnly: [/^@roomruler\/.*$/] })],
 };

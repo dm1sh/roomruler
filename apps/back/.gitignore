@@ -1,3 +1,4 @@
 certs/
 src/db/config.ts
 .env
+tsc-out/

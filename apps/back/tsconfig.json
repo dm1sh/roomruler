@@ -2,8 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es6",
-    "module": "commonjs",
-    "outDir": "dist"
+    "module": "esnext",
+    "outDir": "tsc-out"
   },
   "include": ["src"],
   "references": [{ "path": "../../packages/messages/tsconfig.json" }]

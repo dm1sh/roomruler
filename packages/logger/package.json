@@ -1,12 +1,12 @@
 {
-  "name": "@roomruler/messages",
+  "name": "@roomruler/logger",
   "main": "dist/src/index.js",
   "version": "0.0.0",
   "types": "dist/src/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc --build",
-    "postinstall": "pnpm run build"
+    "postinstall": "pnpm run build",
+    "build": "tsc --build"
   },
   "devDependencies": {
     "typescript": "^4.4.2"
