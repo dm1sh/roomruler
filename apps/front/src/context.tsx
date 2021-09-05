@@ -40,6 +40,9 @@ export const RoomContextProvider: FC = ({ children }) => {
             char: RoomState[] = [],
             ids: Record<number, number> = {};
 
+          let maxWidth = 0,
+            maxHeight = 0;
+
           for (const {
             x,
             y,
@@ -56,9 +59,17 @@ export const RoomContextProvider: FC = ({ children }) => {
             });
             char.push({ free });
             ids[id] = map.length - 1;
+
+            maxHeight = Math.max(maxHeight, y + h);
+            maxWidth = Math.max(maxWidth, x + w);
           }
 
-          setState({ map, char, ids });
+          setState({
+            map,
+            char,
+            ids,
+            boardSize: { w: maxWidth, h: maxHeight },
+          });
         } else if (isUpdateMessage(message)) {
           setState(
             produce((draft) => {

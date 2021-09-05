@@ -5,7 +5,7 @@ import { useRoomContext } from "../context";
 import { RoomDisplay } from "../types/room";
 import { Canvas } from "./Canvas";
 
-export type BuildingPlanProps = { width?: number; height?: number };
+export type BuildingPlanProps = { width: number; height: number };
 
 const getRoomByCoord = (x: number, y: number, map: RoomDisplay[]) => {
   for (let i = 0; i < map.length; i++) {
@@ -53,7 +53,7 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
         );
       });
     },
-    [state.char, state.map]
+    [state.char, state.map, state.boardSize]
   );
 
   const clickCb = (x: number, y: number) => {
@@ -63,7 +63,12 @@ export const BuildingPlan = ({ width, height }: BuildingPlanProps) => {
 
   return (
     <>
-      <Canvas clickCb={clickCb} height={height} width={width} draw={draw} />
+      <Canvas
+        clickCb={clickCb}
+        height={Math.min(height, state.boardSize.h)}
+        width={Math.min(width, state.boardSize.w)}
+        draw={draw}
+      />
     </>
   );
 };

@@ -10,14 +10,21 @@ import { Header } from "./components/Header";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(10, 2, 2, 2),
+    boxSizing: "border-box",
     height: "100vh",
-    overflow: "hidden",
+    width: "100vw",
+    margin: 0,
     "& > div": {
       height: "100%",
     },
-    "& > div > *": {
+    "& > div > div": {
       height: "100%",
     },
+  },
+  canvasContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }));
 
@@ -40,8 +47,13 @@ export const App = () => {
     <AppTheme>
       <RoomContextProvider>
         <Header />
-        <Grid className={classes.root} container>
-          <Grid ref={planContainer} item xs={9}>
+        <Grid spacing={2} className={classes.root} container>
+          <Grid
+            className={classes.canvasContainer}
+            ref={planContainer}
+            item
+            xs={9}
+          >
             <BuildingPlan width={canvasSize.w} height={canvasSize.h} />
           </Grid>
           <Grid item xs={3}>
