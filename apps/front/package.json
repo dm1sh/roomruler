@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "start": "serve -s dist",
-    "prestart": "pnpm run build",
+    "prestart": "[[ -d dist ]] || pnpm run build",
     "build": "vite build"
   },
   "devDependencies": {
